@@ -1,0 +1,24 @@
+name: Render and publish openSCAD parts
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  PACKAGE_NAME: "CANable designs"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Render STL and PNG
+      run: ./scripts/render_parts.sh
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.PACKAGE_NAME }}
+        path: output/
